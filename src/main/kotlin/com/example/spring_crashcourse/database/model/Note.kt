@@ -6,6 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document
 import java.time.Instant
 import javax.print.attribute.standard.DialogOwner
 
+
+//doc
 @Document("notes")
 data class Note(
     val title: String,
