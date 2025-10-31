@@ -22,7 +22,7 @@ class NoteController(val repository: NoteRepository) {
         val id: String?,
         val title: String,
         val content: String,
-        val color: Long
+        val color: Long,
 
     )
 
