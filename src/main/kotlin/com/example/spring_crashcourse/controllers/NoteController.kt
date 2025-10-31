@@ -22,8 +22,8 @@ class NoteController(val repository: NoteRepository) {
         val id: String?,
         val title: String,
         val content: String,
-        val color: Long,
-        val ownerId: String
+        val color: Long
+
     )
 
     data class NoteResponse(
@@ -45,7 +45,7 @@ class NoteController(val repository: NoteRepository) {
                         content = body.content,
                         color = body.color,
                         createdAt = Instant.now(),
-                        ownerId = ObjectId(body.ownerId)
+                        ownerId = ObjectId()
 
                 )
             )
