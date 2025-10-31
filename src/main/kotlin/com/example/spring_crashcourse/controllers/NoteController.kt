@@ -1,11 +1,14 @@
 package com.example.spring_crashcourse.controllers
 
 
+import com.example.spring_crashcourse.controllers.NoteController.NoteResponse
 import com.example.spring_crashcourse.database.model.Note
 import com.example.spring_crashcourse.database.repository.NoteRepository
 import org.bson.types.ObjectId
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.time.Instant
 
@@ -40,17 +43,31 @@ class NoteController(val repository: NoteRepository) {
                         content = body.content,
                         color = body.color,
                         createdAt = Instant.now(),
-                        owner = ObjectId(body.ownerId)
+                        ownerId = ObjectId(body.ownerId)
 
                 )
             )
-        return NoteResponse(
-            id = note.id.toHexString(),
-            title = note.title,
-            content = note.content,
-            color = note.color,
-            createdAt = note.createdAt
-        )
+        return note.toResponse()
+
     }
 
+    @GetMapping
+    fun findByOwnerId(
+        @RequestParam(required = true) ownerId: String
+    ): List<NoteResponse> {
+        return repository.findByOwnerId(ObjectId(ownerId)).map {
+            it.toResponse()
+        }
+    }
+
+}
+
+private fun Note.toResponse(): NoteController.NoteResponse{
+    return NoteResponse(
+        id = id.toHexString(),
+        title = title,
+        content = content,
+        color = color,
+        createdAt = createdAt
+    )
 }
